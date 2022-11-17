@@ -21,7 +21,7 @@ class _SongsListState extends State<SongsList> {
         child: Column(
           children: [
             topMenu(),
-            const SizedBox(height: 30),
+            const SizedBox(height: 15),
             songList(context),
           ],
         ),
@@ -31,35 +31,12 @@ class _SongsListState extends State<SongsList> {
   }
 
   Widget topMenu() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 40, top: 40, right: 40),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: const [
-          Text(
-            "Popular",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Text(
-            "News",
-            style: TextStyle(color: Colors.white54),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Text(
-            "Library",
-            style: TextStyle(color: Colors.white54),
-          )
-        ],
+    return const Padding(
+      padding: EdgeInsets.only(left: 40, top: 30, right: 40),
+      child: Text(
+        "My Playlist",
+        style: TextStyle(
+            color: Colors.white, fontWeight: FontWeight.w500, fontSize: 22),
       ),
     );
   }
@@ -72,7 +49,7 @@ class _SongsListState extends State<SongsList> {
             songsTest.length,
             (index) {
               return Padding(
-                padding: const EdgeInsets.only(left: 15, right: 35),
+                padding: const EdgeInsets.only(left: 10, right: 25),
                 child: ListTile(
                   selectedColor: Colors.red,
                   leading: InkWell(
@@ -90,7 +67,7 @@ class _SongsListState extends State<SongsList> {
                       borderRadius: BorderRadius.circular(6),
                       child: Image.network(
                         songsTest[index].imageSong,
-                        width: 35,
+                        width: 40,
                       ),
                     ),
                   ),

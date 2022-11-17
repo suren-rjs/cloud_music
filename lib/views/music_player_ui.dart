@@ -1,7 +1,5 @@
 import 'package:cloud_music/views/custom/bottom_player.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_music/models/song.dart';
-import 'custom/immutables.dart';
 import 'custom/player_body.dart';
 
 class PlayerView extends StatelessWidget {

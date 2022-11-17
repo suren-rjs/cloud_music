@@ -21,30 +21,33 @@ class CustomWidgets {
   Widget actionButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: const [
-        Icon(
+      children: [
+        const Icon(
           Icons.repeat_outlined,
           color: Colors.white60,
           size: 18,
         ),
-        Icon(
+        const Icon(
           Icons.arrow_back_ios_rounded,
           color: Colors.white60,
           size: 18,
         ),
-        Icon(
+        const Icon(
           Icons.play_circle_filled_outlined,
           color: Colors.white60,
           size: 40,
         ),
-        Icon(
+        const Icon(
           Icons.arrow_forward_ios_rounded,
           color: Colors.white60,
           size: 18,
         ),
         Icon(
-          Icons.favorite_border,
-          color: Colors.white60,
+          currentPlayingSong.isUserFavourite
+              ? Icons.favorite
+              : Icons.favorite_border,
+          color:
+              currentPlayingSong.isUserFavourite ? Colors.teal : Colors.white,
           size: 18,
         ),
       ],
