@@ -1,10 +1,18 @@
+import 'package:cloud_music/views/custom/immutables.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_music/models/song.dart';
-import 'package:cloud_music/views/music_player_ui.dart';
 
-class ListSongsView extends StatelessWidget {
-  const ListSongsView({Key? key}) : super(key: key);
+import '../models/song.dart';
+import 'custom/bottom_player.dart';
+import 'music_player_ui.dart';
 
+class SongsList extends StatefulWidget {
+  const SongsList({Key? key}) : super(key: key);
+
+  @override
+  State<SongsList> createState() => _SongsListState();
+}
+
+class _SongsListState extends State<SongsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +28,7 @@ class ListSongsView extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const PlayerNavigationBar(),
+      bottomNavigationBar: BottomPlayer(isListPage: true),
     );
   }
 
@@ -65,6 +73,8 @@ class ListSongsView extends StatelessWidget {
               children: List.generate(songsTest.length, (index) {
         return InkWell(
           onTap: () {
+            currentPlayingSong = songsTest[index];
+            setState(() {});
             Navigator.push(
                 context,
                 MaterialPageRoute(
