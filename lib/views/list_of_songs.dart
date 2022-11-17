@@ -21,10 +21,8 @@ class _SongsListState extends State<SongsList> {
         child: Column(
           children: [
             topMenu(),
-            const SizedBox(
-              height: 30,
-            ),
-            songList(context)
+            const SizedBox(height: 30),
+            songList(context),
           ],
         ),
       ),
@@ -69,47 +67,87 @@ class _SongsListState extends State<SongsList> {
   Widget songList(context) {
     return Expanded(
       child: SingleChildScrollView(
-          child: Column(
-              children: List.generate(songsTest.length, (index) {
-        return InkWell(
-          onTap: () {
-            currentPlayingSong = songsTest[index];
-            setState(() {});
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PlayerView(
-                          songNow: songsTest[index],
-                        )));
-          },
-          child: Padding(
-            padding:
-                const EdgeInsets.only(top: 5, bottom: 8, left: 25, right: 25),
-            child: ListTile(
-              selectedColor: Colors.red,
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: Image.network(
-                  songsTest[index].imageSong,
-                  width: 45,
+        child: Column(
+          children: List.generate(
+            songsTest.length,
+            (index) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 15, right: 35),
+                child: ListTile(
+                  selectedColor: Colors.red,
+                  leading: InkWell(
+                    onTap: () {
+                      currentPlayingSong = songsTest[index];
+                      setState(() {});
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PlayerView(),
+                        ),
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: Image.network(
+                        songsTest[index].imageSong,
+                        width: 35,
+                      ),
+                    ),
+                  ),
+                  title: InkWell(
+                    onTap: () {
+                      currentPlayingSong = songsTest[index];
+                      setState(() {});
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PlayerView(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      songsTest[index].songName,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  subtitle: InkWell(
+                    onTap: () {
+                      currentPlayingSong = songsTest[index];
+                      setState(() {});
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PlayerView(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      songsTest[index].artist,
+                      style: const TextStyle(color: Colors.white30),
+                    ),
+                  ),
+                  trailing: InkWell(
+                    onTap: () {
+                      songsTest[index].isUserFavourite =
+                          !songsTest[index].isUserFavourite;
+                      setState(() {});
+                    },
+                    child: Icon(
+                      songsTest[index].isUserFavourite
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: songsTest[index].isUserFavourite
+                          ? Colors.teal
+                          : Colors.white,
+                      size: 20,
+                    ),
+                  ),
                 ),
-              ),
-              title: Text(
-                songsTest[index].songName,
-                style: const TextStyle(color: Colors.white),
-              ),
-              subtitle: Text(
-                songsTest[index].artist,
-                style: const TextStyle(color: Colors.white30),
-              ),
-              trailing: const Icon(
-                Icons.more_horiz,
-                color: Colors.white,
-              ),
-            ),
+              );
+            },
           ),
-        );
-      }))),
+        ),
+      ),
     );
   }
 }
