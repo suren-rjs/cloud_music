@@ -6,7 +6,8 @@ import 'custom/bottom_player.dart';
 import 'music_player_ui.dart';
 
 class SongsList extends StatefulWidget {
-  const SongsList({Key? key}) : super(key: key);
+  SongsList({Key? key, required this.playlistName}) : super(key: key);
+  String playlistName;
 
   @override
   State<SongsList> createState() => _SongsListState();
@@ -26,16 +27,16 @@ class _SongsListState extends State<SongsList> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomPlayer(isListPage: true),
+      bottomNavigationBar: BottomPlayer(isPlayeListScreen: true),
     );
   }
 
   Widget topMenu() {
-    return const Padding(
-      padding: EdgeInsets.only(left: 40, top: 30, right: 40),
+    return Padding(
+      padding: const EdgeInsets.only(left: 40, top: 30, right: 40),
       child: Text(
-        "My Playlist",
-        style: TextStyle(
+        widget.playlistName,
+        style: const TextStyle(
             color: Colors.white, fontWeight: FontWeight.w500, fontSize: 22),
       ),
     );
@@ -114,7 +115,7 @@ class _SongsListState extends State<SongsList> {
                           ? Icons.favorite
                           : Icons.favorite_border,
                       color: songsTest[index].isUserFavourite
-                          ? Colors.teal
+                          ? Colors.pink
                           : Colors.white,
                       size: 20,
                     ),

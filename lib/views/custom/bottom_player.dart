@@ -1,11 +1,12 @@
+import 'package:cloud_music/views/music_player_ui.dart';
 import 'package:flutter/material.dart';
 
 import 'immutables.dart';
 
 class BottomPlayer extends StatefulWidget {
-  BottomPlayer({Key? key, required this.isListPage}) : super(key: key);
+  BottomPlayer({Key? key, required this.isPlayeListScreen}) : super(key: key);
 
-  late bool isListPage;
+  late bool isPlayeListScreen;
 
   @override
   State<BottomPlayer> createState() => _BottomPlayerState();
@@ -16,13 +17,12 @@ class _BottomPlayerState extends State<BottomPlayer> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color(0x64000000),
+          color: const Color(0x649E9E9E),
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(widget.isListPage ? 10.0 : 5.0),
-            topRight: Radius.circular(widget.isListPage ? 10.0 : 5.0),
+            topLeft: Radius.circular(widget.isPlayeListScreen ? 10.0 : 5.0),
+            topRight: Radius.circular(widget.isPlayeListScreen ? 10.0 : 5.0),
           )),
-      height: widget.isListPage ? 175 : 120,
-      // color: const Color(0xff2a2a2a),
+      height: widget.isPlayeListScreen ? 175 : 120,
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -33,50 +33,60 @@ class _BottomPlayerState extends State<BottomPlayer> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: widget.isListPage ? 0 : 15),
-                  widget.isListPage
-                      ? Row(
-                          textDirection: TextDirection.ltr,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(
-                              height: 45,
-                              width: 45,
-                              child: customWidgets.playerImageNow(),
-                            ),
-                            const SizedBox(width: 50),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  currentPlayingSong.songName,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    overflow: TextOverflow.fade,
+                  SizedBox(height: widget.isPlayeListScreen ? 0 : 15),
+                  widget.isPlayeListScreen
+                      ? InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PlayerView(),
+                              ),
+                            );
+                          },
+                          child: Row(
+                            textDirection: TextDirection.ltr,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SizedBox(
+                                height: 45,
+                                width: 45,
+                                child: customWidgets.playerImageNow(),
+                              ),
+                              const SizedBox(width: 50),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    currentPlayingSong.songName,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      overflow: TextOverflow.fade,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  softWrap: true,
-                                  currentPlayingSong.artist,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w100,
-                                    overflow: TextOverflow.fade,
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    softWrap: true,
+                                    currentPlayingSong.artist,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w100,
+                                      overflow: TextOverflow.fade,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(width: 100),
-                          ],
+                                ],
+                              ),
+                              const SizedBox(width: 100),
+                            ],
+                          ),
                         )
                       : Container(),
-                  SizedBox(height: widget.isListPage ? 20 : 0),
+                  SizedBox(height: widget.isPlayeListScreen ? 20 : 0),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: const LinearProgressIndicator(
@@ -108,25 +118,37 @@ class _BottomPlayerState extends State<BottomPlayer> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Icon(
-                  Icons.repeat_outlined,
-                  color: Colors.white60,
-                  size: 18,
+                InkWell(
+                  onTap: () {},
+                  child: const Icon(
+                    Icons.repeat_outlined,
+                    color: Colors.white60,
+                    size: 18,
+                  ),
                 ),
-                const Icon(
-                  Icons.arrow_back_ios_rounded,
-                  color: Colors.white60,
-                  size: 18,
+                InkWell(
+                  onTap: () {},
+                  child: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Colors.white60,
+                    size: 18,
+                  ),
                 ),
-                const Icon(
-                  Icons.play_circle_filled_outlined,
-                  color: Colors.white60,
-                  size: 40,
+                InkWell(
+                  onTap: () {},
+                  child: const Icon(
+                    Icons.play_circle_filled_outlined,
+                    color: Colors.white60,
+                    size: 40,
+                  ),
                 ),
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.white60,
-                  size: 18,
+                InkWell(
+                  onTap: () {},
+                  child: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.white60,
+                    size: 18,
+                  ),
                 ),
                 InkWell(
                   onTap: () {
@@ -139,8 +161,8 @@ class _BottomPlayerState extends State<BottomPlayer> {
                         ? Icons.favorite
                         : Icons.favorite_border,
                     color: currentPlayingSong.isUserFavourite
-                        ? Colors.teal
-                        : Colors.white,
+                        ? Colors.pink
+                        : Colors.white60,
                     size: 18,
                   ),
                 ),

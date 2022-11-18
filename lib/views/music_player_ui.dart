@@ -10,7 +10,7 @@ class PlayerView extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xff2a2a2a),
       body: const PlayerBody(),
-      bottomNavigationBar: BottomPlayer(isListPage: false),
+      bottomNavigationBar: BottomPlayer(isPlayeListScreen: false),
     );
   }
 }
