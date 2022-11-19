@@ -1,6 +1,8 @@
+import 'package:cloud_music/views/controller/controller-buttons.dart';
 import 'package:cloud_music/views/music_player_ui.dart';
 import 'package:flutter/material.dart';
 
+import '../controller/progress-bar.dart';
 import 'immutables.dart';
 
 class BottomPlayer extends StatefulWidget {
@@ -22,7 +24,7 @@ class _BottomPlayerState extends State<BottomPlayer> {
             topLeft: Radius.circular(widget.isPlayeListScreen ? 10.0 : 5.0),
             topRight: Radius.circular(widget.isPlayeListScreen ? 10.0 : 5.0),
           )),
-      height: widget.isPlayeListScreen ? 175 : 120,
+      height: widget.isPlayeListScreen ? 179 : 130,
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -87,85 +89,26 @@ class _BottomPlayerState extends State<BottomPlayer> {
                         )
                       : Container(),
                   SizedBox(height: widget.isPlayeListScreen ? 20 : 0),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: const LinearProgressIndicator(
-                      value: 0.8,
-                      backgroundColor: Color(0x70767676),
-                      color: Color(0x8bffffff),
-                      semanticsLabel: 'Progress',
-                      minHeight: 3.75,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 70,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(3.5),
+                      child: const AudioProgressBar(),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Row(
-                    children: const [
-                      Text(
-                        "2:32",
-                        style: TextStyle(color: Colors.white70),
-                      ),
-                      Spacer(),
-                      Text(
-                        "5:29",
-                        style: TextStyle(color: Colors.white70),
-                      )
-                    ],
-                  )
                 ],
               ),
             ),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: const Icon(
-                    Icons.repeat_outlined,
-                    color: Colors.white60,
-                    size: 18,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    color: Colors.white60,
-                    size: 18,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: const Icon(
-                    Icons.play_circle_filled_outlined,
-                    color: Colors.white60,
-                    size: 40,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.white60,
-                    size: 18,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    currentPlayingSong.isUserFavourite =
-                        !currentPlayingSong.isUserFavourite;
-                    setState(() {});
-                  },
-                  child: Icon(
-                    currentPlayingSong.isUserFavourite
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                    color: currentPlayingSong.isUserFavourite
-                        ? Colors.pink
-                        : Colors.white60,
-                    size: 18,
-                  ),
-                ),
+              children: const [
+                RepeatButton(),
+                PreviousSongButton(),
+                PlayButton(),
+                NextSongButton(),
+                FavouriteButton(),
               ],
             ),
           ],

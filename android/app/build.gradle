@@ -32,8 +32,8 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    namespace "com.widow.widow"
-    compileSdkVersion 33
+    namespace "com.widow.cloud_music"
+    compileSdkVersion 31
     ndkVersion '25.1.8937393'
 
     compileOptions {
@@ -54,8 +54,9 @@ android {
         applicationId "com.widow.cloud_music"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdkVersion 23
+        //noinspection OldTargetApi
+        targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -74,6 +75,11 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 
 flutter {
@@ -81,5 +87,5 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
