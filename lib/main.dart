@@ -1,5 +1,5 @@
+import 'package:cloud_music/views/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_music/views/list_of_songs.dart';
 
 void main() => runApp(const MyApp());
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cloud Music',
-      home: SongsList(),
+      home: HomePage(),
     );
   }
 }
