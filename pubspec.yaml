@@ -23,6 +23,8 @@ dependencies:
   audio_session: ^0.1.11
   rxdart: ^0.27.7
   audio_video_progress_bar: ^0.11.0
+  path_provider: ^2.0.11
+  receive_sharing_intent: ^1.4.5
 
 flutter_icons:
   android: true

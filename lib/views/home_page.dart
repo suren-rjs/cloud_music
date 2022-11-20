@@ -1,6 +1,12 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_music/views/list_of_songs.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
+import '../services/handles/hanlde-natives.dart';
 import 'custom/bottom_player.dart';
 import 'custom/custom_app_bar.dart';
 
@@ -12,6 +18,79 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Locale _locale = const Locale('en', '');
+  late StreamSubscription _intentDataStreamSubscription;
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void dispose() {
+    _intentDataStreamSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final Map<String, String> codes = {
+      'Chinese': 'zh',
+      'Czech': 'cs',
+      'Dutch': 'nl',
+      'English': 'en',
+      'French': 'fr',
+      'German': 'de',
+      'Hebrew': 'he',
+      'Hindi': 'hi',
+      'Hungarian': 'hu',
+      'Indonesian': 'id',
+      'Italian': 'it',
+      'Polish': 'pl',
+      'Portuguese': 'pt',
+      'Russian': 'ru',
+      'Spanish': 'es',
+      'Tamil': 'ta',
+      'Turkish': 'tr',
+      'Ukrainian': 'uk',
+      'Urdu': 'ur',
+    };
+    final String systemLangCode = Platform.localeName.substring(0, 2);
+    if (codes.values.contains(systemLangCode)) {
+      _locale = Locale(systemLangCode);
+    } else {
+      final String lang =
+          Hive.box('settings').get('lang', defaultValue: 'English') as String;
+      _locale = Locale(codes[lang]!);
+    }
+
+    // For sharing or opening urls/text coming from outside the app while the app is in the memory
+    _intentDataStreamSubscription = ReceiveSharingIntent.getTextStream().listen(
+      (String value) {
+        handleSharedText(value, navigatorKey);
+      },
+      onError: (err) {
+        // print("ERROR in getTextStream: $err");
+      },
+    );
+
+    // For sharing or opening urls/text coming from outside the app while the app is closed
+    ReceiveSharingIntent.getInitialText().then(
+      (String? value) {
+        if (value != null) handleSharedText(value, navigatorKey);
+      },
+    );
+  }
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
+
+  // Widget initialFuntion() {
+  //   if(Hive.box('settings').get('userId') == null){
+  //
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
