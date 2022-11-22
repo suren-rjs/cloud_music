@@ -25,6 +25,12 @@ dependencies:
   audio_video_progress_bar: ^0.11.0
   path_provider: ^2.0.11
   receive_sharing_intent: ^1.4.5
+  uuid: ^3.0.7
+  supabase: ^1.2.0
+  flutter_localizations:
+    sdk: flutter
+  url_launcher: ^6.1.6
+  material_design_icons_flutter: ^6.0.7096
 
 flutter_icons:
   android: true
@@ -35,4 +41,5 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter:
+  generate: true
   uses-material-design: true

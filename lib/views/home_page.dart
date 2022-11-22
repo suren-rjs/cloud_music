@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_music/models/spotify_playlist.dart';
+import 'package:cloud_music/services/api-service/spotify_api.dart';
 import 'package:cloud_music/views/list_of_songs.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
-import '../services/handles/hanlde-natives.dart';
+import '../services/handles/hanlde_natives.dart';
+import 'controller/playlist_manager.dart';
 import 'custom/bottom_player.dart';
 import 'custom/custom_app_bar.dart';
 
@@ -18,6 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List playListOfUsers = [];
   Locale _locale = const Locale('en', '');
   late StreamSubscription _intentDataStreamSubscription;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -85,14 +90,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // Widget initialFuntion() {
-  //   if(Hive.box('settings').get('userId') == null){
-  //
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
+    List preferredLanguage = Hive.box('settings').get('preferredLanguage',
+        defaultValue: ['English', 'Tamil'])?.toList() as List;
+    String region =
+        Hive.box('settings').get('region', defaultValue: 'India') as String;
     return Scaffold(
       backgroundColor: const Color(0x794a4a4a),
       appBar: CustomAppBar(),
@@ -107,6 +110,17 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomPlayer(isPlayeListScreen: true),
     );
+  }
+
+  getUserPlayLists() async {
+    await spotifyApi
+        .getUserPlaylists(
+            Hive.box('secrets').get('access-token', defaultValue: [""])[0])
+        .then(
+          (value) => {
+            playListOfUsers = value,
+          },
+        );
   }
 
   Widget homeWidgets(context) {
@@ -135,17 +149,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SizedBox(height: 20),
-        SizedBox(
-          height: 50,
-          child: ListView.builder(
-            itemCount: 20,
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            itemBuilder: (context, index) {
-              return favouriteChip(index, "https://i.imgur.com/5DBSkct.jpg");
-            },
-          ),
-        ),
+        const PlayList(),
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 20, right: 40),
           child: Row(
@@ -243,7 +247,10 @@ class _HomePageState extends State<HomePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SongsList(playlistName: title),
+            builder: (context) => SongsList(
+              playlistName: title,
+              playlistId: '',
+            ),
           ),
         );
       },
@@ -275,42 +282,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  InkWell favouriteChip(int index, String url) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SongsList(
-              playlistName: 'Favourites',
-            ),
-          ),
-        );
-      },
-      child: Container(
-        width: 130,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(2)),
-          color: const Color(0xff2a2a2a),
-          image: DecorationImage(
-            image: NetworkImage(url),
-            fit: BoxFit.cover,
-            opacity: 0.7,
-          ),
-        ),
-        margin: const EdgeInsets.all(3.5),
-        alignment: Alignment.center,
-        child: Text(
-          index.toString(),
-          style: const TextStyle(
-            color: Colors.white,
-            letterSpacing: 1,
-          ),
-        ),
       ),
     );
   }

@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:cloud_music/services/api-service/spotify_api.dart';
+import 'package:cloud_music/services/audio_service/service_locator.dart';
 import 'package:cloud_music/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'views/controller/page_manager.dart';
-import 'services/audio-service/service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,12 +17,13 @@ Future<void> main() async {
   await openHiveBox('settings');
   await openHiveBox('downloads');
   await openHiveBox('Favorite Songs');
+  await openHiveBox('secrets');
   await openHiveBox('cache', limit: true);
   if (Platform.isAndroid) {
     setOptimalDisplayMode();
   }
   await setupServiceLocator();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 Future<void> setOptimalDisplayMode() async {
@@ -61,6 +63,8 @@ Future<void> openHiveBox(String boxName, {bool limit = false}) async {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -69,6 +73,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    Hive.box("secrets").clear();
+    spotifyApi.configuration();
     getIt<PageManager>().init();
   }
 

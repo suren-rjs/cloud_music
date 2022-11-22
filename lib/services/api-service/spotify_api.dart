@@ -1,20 +1,41 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:app_links/app_links.dart';
+import 'package:cloud_music/models/TracksOfPlayList.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../models/spotify_playlist.dart';
+import 'new_user_auth.dart';
+
+final SpotifyApi spotifyApi = SpotifyApi();
 
 class SpotifyApi {
+  static final SpotifyApi _instance = SpotifyApi._internal();
+
+  factory SpotifyApi() => _instance;
+
+  SpotifyApi._internal();
+
   final List<String> _scopes = [
     'user-read-private',
     'user-read-email',
     'playlist-read-private',
     'playlist-read-collaborative',
+    'app-remote-control',
+    'user-modify-playback-state',
+    'user-read-recently-played',
+    'user-read-currently-playing',
+    'user-read-playback-position',
   ];
 
   /// You can signup for spotify developer account and get your own clientID and clientSecret in-case you don't want to use these
   final String clientID = '8b569e23cbcd4d76ba4e6d650003b4a0';
   final String clientSecret = 'dd1e478dafda49c1864a259333784ff8';
-  final String redirectUrl = 'app://cloud_music/auth';
+  final String redirectUrl = 'app://widow/auth';
   final String spotifyApiBaseUrl = 'https://accounts.spotify.com/api';
   final String spotifyPlaylistBaseUrl =
       'https://api.spotify.com/v1/me/playlists';
@@ -41,6 +62,39 @@ class SpotifyApi {
   //   }
   // }
 
+  void configuration() async {
+    Hive.box('settings').put(
+      'preferredLanguage',
+      ['English', 'Tamil'],
+    );
+    if (Hive.box('settings').get('userId') == null) {
+      addUserData("Suren");
+    }
+    String code = Hive.box('secrets').get('code', defaultValue: "");
+    if (code != "" &&
+        Hive.box('secrets').get('access-token', defaultValue: "") != "") {
+      return;
+    }
+    launchUrl(
+      Uri.parse(
+        spotifyApi.requestAuthorization(),
+      ),
+      mode: LaunchMode.externalApplication,
+    );
+
+    AppLinks(
+      onAppLink: (Uri uri, String link) async {
+        closeInAppWebView();
+        if (link.contains('code=')) {
+          code = link.split('code=')[1];
+          Hive.box('secrets').put('code', code);
+          await getAccessToken(code)
+              .then((value) => Hive.box('secrets').put('access-token', value));
+        }
+      },
+    );
+  }
+
   Future<List<String>> getAccessToken(String code) async {
     final Map<String, String> headers = {
       'Authorization':
@@ -56,7 +110,6 @@ class SpotifyApi {
     try {
       final Uri path = Uri.parse(requestToken);
       final response = await post(path, headers: headers, body: body);
-      // print(response.statusCode);
       if (response.statusCode == 200) {
         final Map result = jsonDecode(response.body) as Map;
         return <String>[
@@ -65,12 +118,12 @@ class SpotifyApi {
         ];
       }
     } catch (e) {
-      // print('Error: $e');
+      print('Error: $e');
     }
     return [];
   }
 
-  Future<List> getUserPlaylists(String accessToken) async {
+  Future<List<UserPlayList>> getUserPlaylists(String accessToken) async {
     try {
       final Uri path = Uri.parse('$spotifyPlaylistBaseUrl?limit=50');
 
@@ -82,17 +135,17 @@ class SpotifyApi {
         },
       );
       if (response.statusCode == 200) {
-        final result = jsonDecode(response.body);
-        final List playlists = result['items'] as List;
-        return playlists;
+        List playList =
+            Map<String, dynamic>.from(json.decode(response.body))['items'];
+        return playList.map((item) => UserPlayList.fromMap(item)).toList();
       }
     } catch (e) {
-      // print('Error: $e');
+      log('Error: $e');
     }
     return [];
   }
 
-  Future<Map> getTracksOfPlaylist(
+  Future<List<TracksOfPlaylist>> getTracksOfPlaylist(
     String accessToken,
     String playListId,
     int offset,
@@ -110,14 +163,13 @@ class SpotifyApi {
       );
 
       if (response.statusCode == 200) {
-        final result = jsonDecode(response.body);
-        final List tracks = result['items'] as List;
-        final int total = result['total'] as int;
-        return {'tracks': tracks, 'total': total};
+        List tracks =
+            Map<String, dynamic>.from(json.decode(response.body))['items'];
+        return tracks.map((e) => TracksOfPlaylist.fromMap(e)).toList();
       }
     } catch (e) {
-      // print('Error: $e');
+      log('Error: $e');
     }
-    return {};
+    return [];
   }
 }

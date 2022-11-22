@@ -1,5 +1,5 @@
-import 'package:cloud_music/services/audio-service/playlist_repository.dart';
-import 'package:cloud_music/services/audio-service/service_locator.dart';
+import 'package:cloud_music/services/audio_service/playlist_repository.dart';
+import 'package:cloud_music/services/audio_service/service_locator.dart';
 import 'package:cloud_music/services/notifiers/play_button_notifier.dart';
 import 'package:cloud_music/services/notifiers/progress_notifier.dart';
 import 'package:cloud_music/services/notifiers/repeat_button_notifier.dart';

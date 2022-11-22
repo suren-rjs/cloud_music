@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'page_manager.dart';
-import '../../services/audio-service/service_locator.dart';
+import '../../services/audio_service/service_locator.dart';
 import '../../services/notifiers/play_button_notifier.dart';
 import '../../services/notifiers/repeat_button_notifier.dart';
 

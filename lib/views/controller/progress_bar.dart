@@ -2,7 +2,7 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'page_manager.dart';
-import '../../services/audio-service/service_locator.dart';
+import '../../services/audio_service/service_locator.dart';
 import '../../services/notifiers/progress_notifier.dart';
 
 class AudioProgressBar extends StatelessWidget {
@@ -20,8 +20,9 @@ class AudioProgressBar extends StatelessWidget {
           total: value.total,
           onSeek: pageManager.seek,
           timeLabelLocation: TimeLabelLocation.sides,
-          timeLabelTextStyle: const TextStyle(color: Colors.white),
-          timeLabelPadding: 5,
+          timeLabelTextStyle:
+              const TextStyle(color: Colors.white, fontSize: 10),
+          timeLabelPadding: 3.5,
           thumbGlowColor: Colors.white54,
           thumbGlowRadius: 5,
           thumbRadius: 2.2,

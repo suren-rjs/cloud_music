@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/song.dart';
+import '../list_of_songs.dart';
 
 Song currentPlayingSong = songsTest[0];
 
@@ -53,4 +54,41 @@ class CustomWidgets {
       ],
     );
   }
+}
+
+InkWell favouriteChip(int index, String url, context) {
+  return InkWell(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SongsList(
+            playlistName: 'Favourites',
+            playlistId: '',
+          ),
+        ),
+      );
+    },
+    child: Container(
+      width: 130,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(2)),
+        color: const Color(0xff2a2a2a),
+        image: DecorationImage(
+          image: NetworkImage(url),
+          fit: BoxFit.cover,
+          opacity: 0.7,
+        ),
+      ),
+      margin: const EdgeInsets.all(3.5),
+      alignment: Alignment.center,
+      child: Text(
+        index.toString(),
+        style: const TextStyle(
+          color: Colors.white,
+          letterSpacing: 1,
+        ),
+      ),
+    ),
+  );
 }

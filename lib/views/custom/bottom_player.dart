@@ -1,8 +1,8 @@
-import 'package:cloud_music/views/controller/controller-buttons.dart';
+import 'package:cloud_music/views/controller/controller_buttons.dart';
 import 'package:cloud_music/views/music_player_ui.dart';
 import 'package:flutter/material.dart';
 
-import '../controller/progress-bar.dart';
+import '../controller/progress_bar.dart';
 import 'immutables.dart';
 
 class BottomPlayer extends StatefulWidget {
@@ -101,15 +101,17 @@ class _BottomPlayerState extends State<BottomPlayer> {
               ),
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                RepeatButton(),
-                PreviousSongButton(),
-                PlayButton(),
-                NextSongButton(),
-                FavouriteButton(),
-              ],
+            SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: const [
+                  RepeatButton(),
+                  PreviousSongButton(),
+                  PlayButton(),
+                  NextSongButton(),
+                  FavouriteButton(),
+                ],
+              ),
             ),
           ],
         ),

@@ -5,6 +5,9 @@
 .idea/
 .packages
 .gitignore
+.flutter-plugins-dependencies
+.flutter-plugins
+./cloud_music.iml
 build/
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock

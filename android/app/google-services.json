@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "475422261422",
+    "project_id": "cloud-music-2304c",
+    "storage_bucket": "cloud-music-2304c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475422261422:android:d742391562d39fa5bced3f",
+        "android_client_info": {
+          "package_name": "com.widow.cloud_music"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475422261422-1gol49r6475utbpnta9itqld68rkhrsr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4Y7ATmUAg4I8DbrBRufswcQiyOj3brbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475422261422-1gol49r6475utbpnta9itqld68rkhrsr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
