@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:cloud_music/models/response_sub_model/track.dart';
-import 'package:cloud_music/models/response_sub_model/video_thumbnail.dart';
 
 List<TracksOfPlaylist> tracksOfPlaylistFromMap(String str) =>
     List<TracksOfPlaylist>.from(
@@ -9,15 +8,15 @@ List<TracksOfPlaylist> tracksOfPlaylistFromMap(String str) =>
 class TracksOfPlaylist {
   TracksOfPlaylist({
     required this.track,
-    required this.videoThumbnail,
+    required this.thumbArt,
   });
 
   Track track;
-  VideoThumbnail videoThumbnail;
+  dynamic thumbArt;
 
   factory TracksOfPlaylist.fromMap(Map<String, dynamic> json) =>
       TracksOfPlaylist(
         track: Track.fromMap(json["track"]),
-        videoThumbnail: VideoThumbnail.fromMap(json["video_thumbnail"]),
+        thumbArt: json["track"]["album"]["images"][0]["url"],
       );
 }

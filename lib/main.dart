@@ -23,6 +23,7 @@ Future<void> main() async {
     setOptimalDisplayMode();
   }
   await setupServiceLocator();
+  await spotifyApi.configuration();
   runApp(const MyApp());
 }
 
@@ -74,7 +75,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     Hive.box("secrets").clear();
-    spotifyApi.configuration();
     getIt<PageManager>().init();
   }
 

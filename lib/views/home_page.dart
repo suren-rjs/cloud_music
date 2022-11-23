@@ -2,13 +2,12 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:cloud_music/models/spotify_playlist.dart';
-import 'package:cloud_music/services/api-service/spotify_api.dart';
 import 'package:cloud_music/views/list_of_songs.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
+import '../services/api-service/spotify_api.dart';
 import '../services/handles/hanlde_natives.dart';
 import 'controller/playlist_manager.dart';
 import 'custom/bottom_player.dart';
@@ -22,7 +21,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List playListOfUsers = [];
   Locale _locale = const Locale('en', '');
   late StreamSubscription _intentDataStreamSubscription;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -110,17 +108,6 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomPlayer(isPlayeListScreen: true),
     );
-  }
-
-  getUserPlayLists() async {
-    await spotifyApi
-        .getUserPlaylists(
-            Hive.box('secrets').get('access-token', defaultValue: [""])[0])
-        .then(
-          (value) => {
-            playListOfUsers = value,
-          },
-        );
   }
 
   Widget homeWidgets(context) {

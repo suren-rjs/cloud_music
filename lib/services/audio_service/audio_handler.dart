@@ -7,8 +7,8 @@ Future<AudioHandler> initAudioService() async {
   return await AudioService.init(
     builder: () => MyAudioHandler(),
     config: const AudioServiceConfig(
-      androidNotificationChannelId: 'com.mycompany.myapp.audio',
-      androidNotificationChannelName: 'Audio Service Demo',
+      androidNotificationChannelId: 'com.widow.cloud_music.audio',
+      androidNotificationChannelName: 'Audio Service',
       androidNotificationOngoing: true,
       androidStopForegroundOnPause: true,
     ),
@@ -31,7 +31,7 @@ class MyAudioHandler extends BaseAudioHandler {
     try {
       await _player.setAudioSource(_playlist);
     } catch (e) {
-      log("Error: $e");
+      log("Error while Loading Playlist: $e");
     }
   }
 

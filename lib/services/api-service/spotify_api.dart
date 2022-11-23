@@ -13,6 +13,9 @@ import 'new_user_auth.dart';
 
 final SpotifyApi spotifyApi = SpotifyApi();
 
+String accessTokenGlobal =
+    Hive.box('secrets').get('access-token', defaultValue: [""])[0];
+
 class SpotifyApi {
   static final SpotifyApi _instance = SpotifyApi._internal();
 
@@ -46,23 +49,7 @@ class SpotifyApi {
   String requestAuthorization() =>
       'https://accounts.spotify.com/authorize?client_id=$clientID&response_type=code&redirect_uri=$redirectUrl&scope=${_scopes.join('%20')}';
 
-  // Future<String> authenticate() async {
-  //   final url = SpotifyApi().requestAuthorization();
-  //   final callbackUrlScheme = 'accounts.spotify.com';
-
-  //   try {
-  //     final result = await FlutterWebAuth.authenticate(
-  //         url: url, callbackUrlScheme: callbackUrlScheme);
-  // print('got result....');
-  // print(result);
-  //     return result;
-  //   } catch (e) {
-  // print('Got error: $e');
-  //     return 'ERROR';
-  //   }
-  // }
-
-  void configuration() async {
+  configuration() async {
     Hive.box('settings').put(
       'preferredLanguage',
       ['English', 'Tamil'],
@@ -88,11 +75,13 @@ class SpotifyApi {
         if (link.contains('code=')) {
           code = link.split('code=')[1];
           Hive.box('secrets').put('code', code);
-          await getAccessToken(code)
-              .then((value) => Hive.box('secrets').put('access-token', value));
+          await getAccessToken(code).then((value) {
+            Hive.box('secrets').put('access-token', value);
+          });
         }
       },
     );
+    return;
   }
 
   Future<List<String>> getAccessToken(String code) async {
@@ -165,7 +154,11 @@ class SpotifyApi {
       if (response.statusCode == 200) {
         List tracks =
             Map<String, dynamic>.from(json.decode(response.body))['items'];
+        // log('${tracks}');
         return tracks.map((e) => TracksOfPlaylist.fromMap(e)).toList();
+      } else {
+        // accessTokenGlobal = "";
+        // Hive.box('secrets').clear();
       }
     } catch (e) {
       log('Error: $e');

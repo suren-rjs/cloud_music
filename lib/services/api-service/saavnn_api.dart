@@ -10,7 +10,7 @@ import '../format/format.dart';
 
 class JioSaavnApi {
   List preferredLanguages = Hive.box('settings')
-      .get('preferredLanguage', defaultValue: ['Hindi']) as List;
+      .get('preferredLanguage', defaultValue: ['English']) as List;
   Map<String, String> headers = {};
   String baseUrl = 'www.jiosaavn.com';
   String apiStr = '/api.php?_format=json&_marker=0&api_version=4&ctx=web6dot0';

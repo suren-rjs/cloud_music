@@ -99,7 +99,6 @@ Future<void> fetchPlaylists(
     final String accessToken = data[0].toString();
     final List spotifyPlaylists =
         await spotifyApi.getUserPlaylists(accessToken);
-    log("Spotify Playlists = $spotifyPlaylists");
   } else {
     print('Failed');
   }

@@ -16,6 +16,8 @@ class SongsList extends StatefulWidget {
   State<SongsList> createState() => _SongsListState();
 }
 
+List<TracksOfPlaylist>? listOfSongs = [];
+
 class _SongsListState extends State<SongsList> {
   @override
   Widget build(BuildContext context) {
@@ -53,12 +55,12 @@ class _SongsListState extends State<SongsList> {
             0),
         builder: (context, AsyncSnapshot<List<TracksOfPlaylist>> snapshot) {
           if (snapshot.hasData) {
-            List<TracksOfPlaylist>? list = snapshot.data;
+            listOfSongs = snapshot.data;
             return Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: List.generate(
-                    list!.length,
+                    listOfSongs!.length,
                     (index) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 10, right: 25),
@@ -78,7 +80,7 @@ class _SongsListState extends State<SongsList> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
                               child: Image.network(
-                                "${list[index].videoThumbnail.url}",
+                                listOfSongs![index].thumbArt,
                                 errorBuilder: (context, error, stackTrace) {
                                   return const Icon(
                                     Icons.music_note_outlined,
@@ -101,9 +103,9 @@ class _SongsListState extends State<SongsList> {
                               );
                             },
                             child: Text(
-                              list[index].track.name.length < 36
-                                  ? list[index].track.name
-                                  : "${list[index].track.name.substring(0, 37)}...",
+                              listOfSongs![index].track.name.length < 36
+                                  ? listOfSongs![index].track.name
+                                  : "${listOfSongs![index].track.name.substring(0, 37)}...",
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
@@ -119,7 +121,7 @@ class _SongsListState extends State<SongsList> {
                               );
                             },
                             child: Text(
-                              list[index].track.type,
+                              listOfSongs![index].track.artist,
                               style: const TextStyle(color: Colors.white30),
                             ),
                           ),
